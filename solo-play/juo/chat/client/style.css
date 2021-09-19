@@ -67,9 +67,9 @@ h1, h2, h3, h4, h5, h6 {
 .chatProfilePicture {
     width: 2.5rem;
     height: 2.5rem;
-    mask-image: url(profile_picture_mask.svg);
+    mask-image: url(profile_picture_mask.png);
     mask-size: contain;
-    -webkit-mask-image: url(profile_picture_mask.svg);
+    -webkit-mask-image: url(profile_picture_mask.png);
     -webkit-mask-size: contain;
     grid-column: 1 / 2;
     grid-row: 1 / 2;
@@ -162,9 +162,9 @@ h1, h2, h3, h4, h5, h6 {
 .participantProfilePicture {
     width: 2.8rem;
     height: 2.8rem;
-    mask-image: url(profile_picture_mask.svg);
+    mask-image: url(profile_picture_mask.png);
     mask-size: contain;
-    -webkit-mask-image: url(profile_picture_mask.svg);
+    -webkit-mask-image: url(profile_picture_mask.png);
     -webkit-mask-size: contain;
     margin-right: 0.5rem;
 }
