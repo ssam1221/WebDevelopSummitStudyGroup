@@ -62,8 +62,20 @@ class Server {
     defaultHandler(request, response) {
         fs.readFile(request.url, (err, data) => {
             if (err) {
-                response.statusCode = 404;
-                response.end("Invalid addreess");   // TODO: Nice 404 page
+                this.respondWithError(response, 404);
+            } else {
+                response.end(data);
+            }
+        });
+    }
+
+    respondWithError(response, code) {
+        const url = this.refineUrl(`/${code}.html`);
+        response.statusCode = code;
+
+        fs.readFile(url, (err, data) => {
+            if (err) {
+                console.error(`Load failed: ${url}`);
             } else {
                 response.end(data);
             }
