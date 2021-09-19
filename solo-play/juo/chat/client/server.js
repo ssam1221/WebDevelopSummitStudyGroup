@@ -3,7 +3,8 @@ const http = require("http");
 
 class Server {
     constructor(config) {
-        this.index = config.index ?? "/index.html";
+        this.root = config.root ?? ".";
+        this.index = config.index ?? "index.html";
         this.port = config.port ?? 80;
 
         this.handlers = new Map();
@@ -40,7 +41,7 @@ class Server {
             buffer.push(chunk);
         }).on("end", () => {
             const requestParam = {
-                url: request.url,
+                url: this.refineUrl(request.url),
                 method: request.method,
                 headers: request.headers,
                 body: Buffer.concat(buffer).toString(),
@@ -53,15 +54,16 @@ class Server {
         });
     }
 
-    defaultHandler(request, response) {
-        let url = request.url;
-        if (url === "/") url = this.index;
-        url = "." + url;
+    refineUrl(url) {
+        if (url === "/") url += this.index;
+        return this.root + url;
+    }
 
-        fs.readFile(url, (err, data) => {
+    defaultHandler(request, response) {
+        fs.readFile(request.url, (err, data) => {
             if (err) {
                 response.statusCode = 404;
-                response.end("Invalid addreess");
+                response.end("Invalid addreess");   // TODO: Nice 404 page
             } else {
                 response.end(data);
             }
