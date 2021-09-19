@@ -1,5 +1,4 @@
 class ChatInput {
-    // 여러 파라메터가 있는 경우에는 객체 하나로 묶어서 넣도록 구현하는게 가독성/확장성에서 유리합니다.
     constructor(
         context,
         inputTextElement,
@@ -18,8 +17,7 @@ class ChatInput {
 
     sendChat() {
         const text = this.inputTextElement.value;
-        // String length 가 음수가 되진 않으니 == 0 정도만 해도 충분해 보입니다.
-        if (text.length <= 0) return;
+        if (text.length === 0) return;
         this.inputTextElement.value = "";
 
         this.context.log.addText(this.context.myProfile, text);
