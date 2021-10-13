@@ -3,7 +3,8 @@ const http = require("http");
 
 class Server {
     constructor(config) {
-        this.index = config.index ?? "/index.html";
+        this.root = config.root ?? ".";
+        this.index = config.index ?? "index.html";
         this.port = config.port ?? 80;
 
         this.handlers = new Map();
@@ -39,28 +40,39 @@ class Server {
         }).on("data", chunk => {
             buffer.push(chunk);
         }).on("end", () => {
-            const body = Buffer.concat(buffer).toString();
-            const { headers, method, url } = request;
+            const requestParam = {
+                url: this.refineUrl(request.url),
+                method: request.method,
+                headers: request.headers,
+                body: Buffer.concat(buffer).toString(),
+            }
 
-            this.getHandler(url)(url, method, headers, body, response);
+            this.getHandler(request.url)(requestParam, response);
         });
         response.on("error", err => {
             console.error(err);
         });
     }
 
-    defaultHandler(url, method, headers, body, response) {
-        if (url === "/") url = this.index;
-        url = "." + url;
+    refineUrl(url) {
+        if (url === "/") url += this.index;
+        return this.root + url;
+    }
 
-        fs.readFile(url, (err, data) => {
+    defaultHandler(request, response) {
+        fs.readFile(request.url, (err, data) => {
             if (err) {
-                response.statusCode = 404;
-                response.end("Invalid addreess");
+                this.respondWithError(response, 404);
             } else {
                 response.end(data);
             }
         });
+    }
+
+    respondWithError(response, code) {
+        const url = this.refineUrl(`/${code}.html`);
+        response.statusCode = code;
+        response.end(`Error: ${code}`);
     }
 }
 
