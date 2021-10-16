@@ -1,0 +1,71 @@
+body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+h1 {
+    margin: 0;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: x-large;
+}
+
+section {
+    color: white;
+    font-size: small;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    background-color: rgb(252, 13, 27);
+    width: fit-content;
+    padding: 15px;
+    border-width: 0;
+    border-radius: 15px;
+    margin: 10px;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+input[type="text"],
+input[type="password"] {
+    border-width: 0px;
+    border-radius: 4px;
+    padding: 5px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+}
+
+form table {
+    margin: 5px;
+}
+
+td {
+    padding: 3px;
+}
+
+div.formButtonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+div.formButtonContainer button {
+    color: black;
+    font-size: small;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    background-color: white;
+    flex-grow: 1;
+    padding: 7px;
+    border-width: 0;
+    border-radius: 5px;
+    margin: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+div.formButtonContainer button[type="submit"] {
+    font-weight: bold;
+}
+
+div.formButtonContainer button:active {
+    color: black;
+    text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+    background-color: #eee;
+    padding: 8px 6px 6px 8px;
+}
