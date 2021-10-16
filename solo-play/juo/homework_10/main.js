@@ -10,20 +10,7 @@ app.use(Session({
     resave: false,
     saveUninitialized: true
 }));
-
-app.use(function(req, res, next) {
-    session = req.session;
-
-    if (session.testValue) {
-        console.log("Existing session: " + session.testValue);
-    } else {
-        const id = Crypto.randomBytes(16).toString("base64");
-        session.testValue = id;
-        console.log("It's a new session so give a new test value: " + id);
-    }
-
-    next();
-});
+app.use(require("./router/session.js"));
 
 app.use(Express.static(__dirname + "/web"));
 
