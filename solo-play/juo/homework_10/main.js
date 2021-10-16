@@ -1,6 +1,10 @@
-const Server = require("./server.js");
+const express = require("express");
 
-new Server({
-    root: "web",
-    port: 8080
-}).start();
+const app = express();
+const port = 8080;
+
+app.use(express.static(__dirname + "/web"));
+
+app.listen(port, () => {
+    console.log(`Server is running on ${port} port`);
+});

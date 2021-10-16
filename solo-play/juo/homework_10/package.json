@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ssam1221/WebDevelopSummitStudyGroup/issues"
   },
-  "homepage": "https://github.com/ssam1221/WebDevelopSummitStudyGroup#readme"
+  "homepage": "https://github.com/ssam1221/WebDevelopSummitStudyGroup#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
