@@ -16,7 +16,7 @@ class WebServer {
             saveUninitialized: true,
         }));
         this.app.use(require("./router/session.js"));
-        this.app.use(Express.static(__dirname + "/" + this.root));
+        this.app.use(Express.static(this.root));
     }
 
     start() {
