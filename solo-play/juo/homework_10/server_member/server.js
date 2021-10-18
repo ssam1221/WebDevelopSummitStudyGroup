@@ -18,7 +18,7 @@ class MemberServer {
             .post(require("./router/member_new.js")(this.store))
             .get(require("./router/member_search.js")(this.store))
             .put(require("./router/member_modify.js")(this.store))
-//            .delete(require("./router/member_delete.js")(this.store));
+            .delete(require("./router/member_delete.js")(this.store));
     }
 
     start() {
