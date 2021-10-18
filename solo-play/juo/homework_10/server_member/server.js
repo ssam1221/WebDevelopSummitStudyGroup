@@ -1,3 +1,4 @@
+const Cors = require("cors");
 const Express = require("express");
 const MemberStore = require("./store.js");
 
@@ -11,6 +12,8 @@ class MemberServer {
     }
 
     initRouters() {
+        this.app.use(Cors());
+
         this.app.route("/" + this.path)
             .post(require("./router/member_new.js")(this.store))
 //            .get(require("./router/member_search.js")(this.store))
