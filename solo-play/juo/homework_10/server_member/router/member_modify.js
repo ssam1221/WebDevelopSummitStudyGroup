@@ -16,12 +16,12 @@ function resultToStatus(result) {
     }
 }
 
-const router = Express.Router();
+const router = Express.Router({ mergeParams: true });
 
 router.use(Express.json());
 
 router.use(function (req, res) {
-    const result = router.store.modify(req.body.id, new Member(req.body));
+    const result = router.store.modify(req.params.id, new Member(req.body));
 
     res.status(resultToStatus(result));
     res.send({

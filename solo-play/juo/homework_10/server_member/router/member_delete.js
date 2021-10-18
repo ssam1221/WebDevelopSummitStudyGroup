@@ -1,5 +1,4 @@
 const Express = require("express");
-const Member = require("../store/member.js");
 const Result = require("../store/result.js");
 
 function resultToStatus(result) {
@@ -16,12 +15,10 @@ function resultToStatus(result) {
     }
 }
 
-const router = Express.Router();
-
-router.use(Express.json());
+const router = Express.Router({ mergeParams: true });
 
 router.use(function (req, res) {
-    const result = router.store.delete(req.body.id);
+    const result = router.store.delete(req.params.id);
 
     res.status(resultToStatus(result));
     res.send({
