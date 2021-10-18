@@ -1,3 +1,5 @@
+const client = new MemberClient("http://localhost:12344/member");
+
 class MemberFormInput {
     constructor(idElement, passwordElement, nicknameElement) {
         this.idElement = idElement;
@@ -33,14 +35,18 @@ function createMember(e) {
         }
     }
 
-    const result = manager.add(new Member(joinInput.get()));
+    client.request({
+        method: "POST",
+        data: joinInput.get(),
+     }, (status, responseBody) => {
+        console.log(status, responseBody);
 
-    if (result.isSuccess()) {
-        alert("가입함...");
-        joinInput.empty();
-    } else {
-        alert(codeToMessage(result.code));
-    }
+        if (status === 200) {
+            alert("가입함...");
+        } else {
+            alert(codeToMessage(responseBody?.code));
+        }
+    });
 
     e.preventDefault();
 }
@@ -54,14 +60,21 @@ function searchMember(e) {
         }
     }
 
-    const result = manager.get(manageInput.get().id);
+    client.request({
+        method: "GET",
+        resource: manageInput.get().id,
+     }, (status, responseBody) => {
+        console.log(status, responseBody);
 
-    if (result.isSuccess()) {
-        const found = result.data;
-        manageInput.set(found.id, found.password, found.nickname);
-    } else {
-        alert(codeToMessage(result.code));
-    }
+        if (status === 200) {
+            manageInput.set(
+                responseBody.member.id,
+                responseBody.member.password,
+                responseBody.member.nickname);
+        } else {
+            alert(codeToMessage(responseBody?.code));
+        }
+    });
 
     e.preventDefault();
 }
@@ -75,14 +88,19 @@ function modifyMember(e) {
         }
     }
 
-    const input = manageInput.get();
-    const result = manager.modify(input.id, new Member(input));
+    client.request({
+        method: "PUT",
+        resource: manageInput.get().id,
+        data: manageInput.get(),
+     }, (status, responseBody) => {
+        console.log(status, responseBody);
 
-    if (result.isSuccess()) {
-        alert("수정함...");
-    } else {
-        alert(codeToMessage(result.code));
-    }
+        if (status === 200) {
+            alert("수정함...");
+        } else {
+            alert(codeToMessage(responseBody?.code));
+        }
+    });
 
     e.preventDefault();
 }
@@ -96,15 +114,19 @@ function deleteMember(e) {
         }
     }
 
-    const input = manageInput.get();
-    const result = manager.delete(input.id);
+    client.request({
+        method: "DELETE",
+        resource: manageInput.get().id,
+     }, (status, responseBody) => {
+        console.log(status, responseBody);
 
-    if (result.isSuccess()) {
-        alert("삭제함...");
-        manageInput.empty();
-    } else {
-        alert(codeToMessage(result.code));
-    }
+        if (status === 200) {
+            alert("삭제함...");
+            manageInput.empty();
+        } else {
+            alert(codeToMessage(responseBody?.code));
+        }
+    });
 
     e.preventDefault();
 }
@@ -129,5 +151,3 @@ const manageInput = new MemberFormInput(
     document.getElementById("manage_password"),
     document.getElementById("manage_nickname"),
 );
-
-const manager = new MemberManager();
