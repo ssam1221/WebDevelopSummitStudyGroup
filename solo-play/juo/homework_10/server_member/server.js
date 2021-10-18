@@ -1,6 +1,6 @@
 const Cors = require("cors");
 const Express = require("express");
-const MemberStore = require("./store.js");
+const MemberStore = require("./store/store.js");
 
 class MemberServer {
     constructor(config) {
