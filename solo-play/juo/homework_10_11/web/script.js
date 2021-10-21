@@ -1,5 +1,4 @@
-import WebSocket from 'ws';
-const ws = new WebSocket('ws://www.host.com/path');
+const ws = new WebSocket("ws://localhost:12345/member");
 
 const client = new MemberClient("http://localhost:12344/member");
 
@@ -30,6 +29,8 @@ class MemberFormInput {
 }
 
 function createMember(e) {
+    e.preventDefault();
+
     function codeToMessage(code) {
         switch (code) {
             case Result.INVALID_INPUT: return "다 채워...";
@@ -38,9 +39,15 @@ function createMember(e) {
         }
     }
 
+    input = joinInput.get();
+    if (!(input.id && input.password && input.nickname)) {
+        alert(codeToMessage(Result.INVALID_INPUT));
+        return;
+    }
+
     client.request({
         method: "POST",
-        data: joinInput.get(),
+        data: input,
      }, (status, responseBody) => {
         console.log(status, responseBody);
 
@@ -50,11 +57,11 @@ function createMember(e) {
             alert(codeToMessage(responseBody?.code));
         }
     });
-
-    e.preventDefault();
 }
 
 function searchMember(e) {
+    e.preventDefault();
+
     function codeToMessage(code) {
         switch (code) {
             case Result.INVALID_INPUT: return "아이디 채워...";
@@ -63,9 +70,15 @@ function searchMember(e) {
         }
     }
 
+    input = manageInput.get();
+    if (!input.id) {
+        alert(codeToMessage(Result.INVALID_INPUT));
+        return;
+    }
+
     client.request({
         method: "GET",
-        resource: manageInput.get().id,
+        resource: input.id,
      }, (status, responseBody) => {
         console.log(status, responseBody);
 
@@ -78,11 +91,11 @@ function searchMember(e) {
             alert(codeToMessage(responseBody?.code));
         }
     });
-
-    e.preventDefault();
 }
 
 function modifyMember(e) {
+    e.preventDefault();
+
     function codeToMessage(code) {
         switch (code) {
             case Result.INVALID_INPUT: return "다 채워...";
@@ -91,10 +104,16 @@ function modifyMember(e) {
         }
     }
 
+    input = manageInput.get();
+    if (!(input.id && input.password && input.nickname)) {
+        alert(codeToMessage(Result.INVALID_INPUT));
+        return;
+    }
+
     client.request({
         method: "PUT",
-        resource: manageInput.get().id,
-        data: manageInput.get(),
+        resource: input.id,
+        data: input,
      }, (status, responseBody) => {
         console.log(status, responseBody);
 
@@ -104,11 +123,11 @@ function modifyMember(e) {
             alert(codeToMessage(responseBody?.code));
         }
     });
-
-    e.preventDefault();
 }
 
 function deleteMember(e) {
+    e.preventDefault();
+
     function codeToMessage(code) {
         switch (code) {
             case Result.INVALID_INPUT: return "아이디 채워...";
@@ -117,9 +136,15 @@ function deleteMember(e) {
         }
     }
 
+    input = manageInput.get();
+    if (!input.id) {
+        alert(codeToMessage(Result.INVALID_INPUT));
+        return;
+    }
+
     client.request({
         method: "DELETE",
-        resource: manageInput.get().id,
+        resource: input.id,
      }, (status, responseBody) => {
         console.log(status, responseBody);
 
@@ -130,8 +155,6 @@ function deleteMember(e) {
             alert(codeToMessage(responseBody?.code));
         }
     });
-
-    e.preventDefault();
 }
 
 function registerEventListeners() {
