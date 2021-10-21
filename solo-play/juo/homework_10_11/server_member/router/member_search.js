@@ -25,9 +25,12 @@ router.use(function (req, res) {
         code: result.code,
         member: result.data,
     });
+
+    router.listeners.forEach(l => l.onSearchMember(result.code, req.params.id));
 });
 
-module.exports = function(store) {
-    router.store = store;
+module.exports = function(options) {
+    router.store = options.store;
+    router.listeners = options.listeners;
     return router;
 };

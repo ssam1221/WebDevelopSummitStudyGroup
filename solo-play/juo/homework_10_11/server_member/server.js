@@ -6,6 +6,7 @@ class MemberServer {
     constructor(config) {
         this.app = Express();
         this.store = new MemberStore();
+        this.listeners = [];
 
         this.path = "/" + config.path;
         this.port = config.port ?? 80;
@@ -14,13 +15,18 @@ class MemberServer {
     initRouters() {
         this.app.use(Cors());
 
+        const options = {
+            store: this.store,
+            listeners: this.listeners
+        };
+
         this.app.route(this.path)
-            .post(require("./router/member_new.js")(this.store))
+            .post(require("./router/member_new.js")(options))
 
         this.app.route(this.path + "/:id")
-            .get(require("./router/member_search.js")(this.store))
-            .put(require("./router/member_modify.js")(this.store))
-            .delete(require("./router/member_delete.js")(this.store));
+            .get(require("./router/member_search.js")(options))
+            .put(require("./router/member_modify.js")(options))
+            .delete(require("./router/member_delete.js")(options));
     }
 
     start() {
@@ -29,6 +35,17 @@ class MemberServer {
         this.app.listen(this.port, () => {
             console.log(`Member server is running on ${this.port} port`);
         });
+    }
+
+    registerListener(listener) {
+        this.listeners.push(listener);
+    }
+
+    unregisterListener(listener) {
+        const i = this.listeners.indexOf(listener);
+        if (i < 0) return;
+
+        this.listeners.splice(i, 1)
     }
 }
 
