@@ -1,3 +1,6 @@
+import WebSocket from 'ws';
+const ws = new WebSocket('ws://www.host.com/path');
+
 const client = new MemberClient("http://localhost:12344/member");
 
 class MemberFormInput {
