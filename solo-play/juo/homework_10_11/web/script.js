@@ -1,4 +1,3 @@
-const ws = new WebSocket("ws://localhost:12345/member");
 const client = new MemberClient("http://localhost:12344/member");
 
 function createMember(e) {
