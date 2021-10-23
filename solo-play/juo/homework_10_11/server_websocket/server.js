@@ -30,19 +30,35 @@ class WebSocketServer {
     }
 
     onNewMember(params) {
-        console.log("new", params);
+        if (params.result === Result.SUCCESS) {
+            this.clients.forEach(ws => {
+                ws.send(`${params.memberId} is joined!`);
+            });
+        }
     }
 
     onSearchMember(params) {
-        console.log("search", params);
+        if (params.result === Result.SUCCESS) {
+            this.clients.forEach((ws, sessionId) => {
+                if (params.sessionId === sessionId) return;
+                ws.send(`${params.memberId} is searched!`);
+            });
+        }
     }
 
     onModifyMember(params) {
-        console.log("mod", params);
     }
 
     onDeleteMember(params) {
-        console.log("del", params);
+        if (params.result === Result.SUCCESS) {
+            const ws = this.clients.get(params.sessionId);
+            if (!ws) {
+                console.error(`${params.sessionId} client doesn't exist`);
+                return;
+            }
+
+            ws.send(`${params.memberId} is deleted!`);
+        }
     }
 }
 
