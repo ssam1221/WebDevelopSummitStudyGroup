@@ -10,10 +10,18 @@ class MemberServer {
 
         this.path = "/" + config.path;
         this.port = config.port ?? 80;
+        this.session = config.session ?? null;
     }
 
     initRouters() {
-        this.app.use(Cors());
+        this.app.use(Cors({
+            origin: true,
+            credentials: true,
+        }));
+
+        if (this.session) {
+            this.app.use(this.session);
+        }
 
         const options = {
             store: this.store,

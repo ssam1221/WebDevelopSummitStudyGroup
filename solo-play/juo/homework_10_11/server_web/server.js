@@ -1,5 +1,4 @@
 const Express = require("express");
-const Session = require("express-session");
 
 class WebServer {
     constructor(config) {
@@ -7,15 +6,13 @@ class WebServer {
 
         this.root = config.root ?? "";
         this.port = config.port ?? 80;
+        this.session = config.session ?? null;
     }
 
     initRouters() {
-        this.app.use(Session({
-            secret: "some_secret",
-            resave: false,
-            saveUninitialized: true,
-        }));
-        this.app.use(require("./router/session.js"));
+        if (this.session) {
+            this.app.use(this.session);
+        }
 
         this.app.use(Express.static(this.root));
     }

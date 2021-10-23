@@ -5,6 +5,7 @@ class MemberClient {
 
     request(param, callback) {
         const xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
 
         xhr.onreadystatechange = function() {
             let body = undefined;
