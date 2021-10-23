@@ -29,20 +29,20 @@ class WebSocketServer {
         });
     }
 
-    onNewMember(result, id) {
-        console.log("new", result, id);
+    onNewMember(params) {
+        console.log("new", params);
     }
 
-    onSearchMember(result, id) {
-        console.log("search", result, id);
+    onSearchMember(params) {
+        console.log("search", params);
     }
 
-    onModifyMember(result, id) {
-        console.log("mod", result, id);
+    onModifyMember(params) {
+        console.log("mod", params);
     }
 
-    onDeleteMember(result, id) {
-        console.log("del", result, id);
+    onDeleteMember(params) {
+        console.log("del", params);
     }
 }
 

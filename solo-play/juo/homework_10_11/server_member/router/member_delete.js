@@ -25,7 +25,11 @@ router.use(function (req, res) {
         code: result.code,
     });
 
-    router.listeners.forEach(l => l.onDeleteMember(result.code, req.params.id));
+    router.listeners.forEach(l => l.onDeleteMember({
+        sessionId: req.session.id,
+        memberId: req.params.id,
+        result: result.code,
+    }));
 });
 
 module.exports = function(options) {

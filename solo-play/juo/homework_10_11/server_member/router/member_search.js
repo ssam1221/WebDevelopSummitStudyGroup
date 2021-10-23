@@ -26,7 +26,11 @@ router.use(function (req, res) {
         member: result.data,
     });
 
-    router.listeners.forEach(l => l.onSearchMember(result.code, req.params.id));
+    router.listeners.forEach(l => l.onSearchMember({
+        sessionId: req.session.id,
+        memberId: req.params.id,
+        result: result.code,
+    }));
 });
 
 module.exports = function(options) {
