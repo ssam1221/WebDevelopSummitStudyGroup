@@ -4,6 +4,9 @@ const Result = require("./result.js");
 class WebSocketServer {
     constructor(config) {
         this.port = config.port ?? 80;
+        this.session = config.session ?? null;
+
+        this.clients = new Map();
     }
 
     start() {
@@ -13,16 +16,17 @@ class WebSocketServer {
             console.log(`WebSocket server is running on ${this.port} port`);
         });
 
-        this.server.on("connection", (ws, req) => {
-            console.log("new connection\n");
-            this.server.clients.forEach(c => { console.log(c) });
-        });
+        this.server.on("connection", this.onNewConnection.bind(this));
+    }
 
-        this.server.on("error", (err) => {
-            console.log(`err` + err);
-        });
+    onNewConnection(ws, req) {
+        this.session(req, {}, () => {
+            this.clients.set(req.session.id, ws);
 
-        // ws.send('something');
+            ws.on("close", () => {
+                this.clients.delete(req.session.id);
+            });
+        });
     }
 
     onNewMember(result, id) {

@@ -11,6 +11,7 @@ const session = Session({
 
 const wsServer = new WebSocketServer({
     port: 12345,
+    session: session,
 });
 wsServer.start();
 
