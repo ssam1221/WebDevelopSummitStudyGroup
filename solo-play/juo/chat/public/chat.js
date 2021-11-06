@@ -5,13 +5,25 @@ class Chat {
 
         this.elements.input.onSendChat = this.onSendChat.bind(this);
         this.elements.input.onSendBinary = this.onSendBinary.bind(this);
+
+        this.elements.nicknameSetDialog.onSet = this.onNicknameChange.bind(this);
     }
 
     start() {
-        // TODO: Something wonderful
-        this.myProfile = new Profile("juo");
-        this.elements.participantList.add("juo", this.myProfile);
-        this.elements.participantList.add("초미륵", new Profile("초미륵"));
-        this.elements.participantList.add("금부장", new Profile("금부장"));
+        this.elements.nicknameSetDialog.show("");
+    }
+
+    onSendChat(text) {
+        console.log("Send " + text);
+    }
+
+    onSendBinary(name, data) {
+    }
+
+    onNicknameChange(name) {
+        console.log("Nickname changed to " + name);
+
+        this.myProfile = new Profile(name);
+        this.elements.participantList.add(name, this.myProfile);
     }
 }

@@ -13,7 +13,7 @@
         <script defer src="chat.js"></script>
         <script defer src="script.js"></script>
 
-        <div id="container">
+        <div id="chatContainer">
             <div id="chatTitle">
                 <h1>코코아톡</h1>
             </div>
@@ -44,7 +44,7 @@
 
             <div id="chatInput">
                 <textarea id="chatInputText"></textarea>
-                <button id="chatSendButton" type="button">전송</button>
+                <button id="chatSendButton" class="confirmButton" type="button">전송</button>
             </div>
 
             <div id="sidebar">
@@ -63,6 +63,14 @@
                         <span class="participantName">초미륵</span>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div id="nicknameDialog" class="dialogBackground">
+            <div class="dialogContainer">
+                <p class="dialogPrompt">내 이름을 입력하세요</p>
+                <input id="nicknameText" class="dialogInput" type="text" maxlength="10" />
+                <button id="nicknameConfirmButton" class="confirmButton" type="button">확인</button>
             </div>
         </div>
     </body>

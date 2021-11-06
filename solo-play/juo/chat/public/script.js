@@ -11,5 +11,10 @@ const chat = new Chat(client, {
     participantList: new ParticipantList(
         document.getElementById("participantList"),
     ),
+    nicknameSetDialog: new NicknameSetDialog(
+        document.getElementById("nicknameDialog"),
+        document.getElementById("nicknameText"),
+        document.getElementById("nicknameConfirmButton"),
+    ),
 });
 chat.start();

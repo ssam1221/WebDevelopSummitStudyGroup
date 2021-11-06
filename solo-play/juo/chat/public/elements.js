@@ -125,8 +125,7 @@ class ChatLogItem {
 }
 
 class ParticipantList {
-    constructor(context, element) {
-        this.context = context;
+    constructor(element) {
         this.element = element;
         this.participantItems = new Map();
     }
@@ -134,7 +133,7 @@ class ParticipantList {
     add(id, profile) {
         this.participantItems.set(
             id,
-            new ParticipantItem(this.context, profile));
+            new ParticipantItem(profile));
         this.refresh();
     }
 
@@ -154,8 +153,7 @@ class ParticipantList {
 }
 
 class ParticipantItem {
-    constructor(context, profile) {
-        this.context = context;
+    constructor(profile) {
         this.profile = profile;
         this.element = this.createItemElement(profile);
     }
@@ -169,7 +167,7 @@ class ParticipantItem {
         profilePictureElement.src = profile.picture;
         element.appendChild(profilePictureElement);
 
-        const isSelfProfile = profile === this.context.myProfile;
+        const isSelfProfile = false;
 
         const nameElement = document.createElement("span");
         nameElement.className = isSelfProfile ? "participantNameSelf" : "participantName";
@@ -181,6 +179,40 @@ class ParticipantItem {
 
     remove() {
         this.element.remove();
+    }
+}
+
+class NicknameSetDialog {
+    constructor(dialogElement, inputElement, confirmButtonElement) {
+        this.element = dialogElement;
+        this.inputElement = inputElement;
+        this.confirmButtonElement = confirmButtonElement;
+
+        this.confirmButtonElement.addEventListener(
+            "click", this.onConfirmButtonClick.bind(this));
+    }
+
+    show(name) {
+        this.inputElement.value = name;
+        this.element.style.visibility = "visible";
+
+        this.inputElement.focus();
+    }
+
+    hide() {
+        this.element.style.visibility = "hidden";
+    }
+
+    onConfirmButtonClick(e) {
+        this.inputElement.value = this.inputElement.value.trim();
+        const newName = this.inputElement.value;
+        if (newName.length <= 0) {
+            this.inputElement.focus();
+            return;
+        }
+
+        if (this.onSet) this.onSet(newName);
+        this.hide();
     }
 }
 
