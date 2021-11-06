@@ -99,6 +99,15 @@ h1, h2, h3, h4, h5, h6 {
     display: inline-block;
 }
 
+.chatTime {
+    width: fit-content;
+    font-size: 0.7rem;
+    top: 0.5rem;
+    color: rgb(74, 82, 89);
+    display: inline-block;
+    position: relative;
+}
+
 .chatLogItemSelf .chatText {
     background-color: rgb(248, 229, 52);
 }
