@@ -1,5 +1,5 @@
 const WebServer = require("./server_web/server.js");
-// const ChatServer = require("./server_chat/server.js");
+const ChatServer = require("./server_chat/server.js");
 const Session = require("express-session");
 
 const session = Session({
@@ -8,13 +8,11 @@ const session = Session({
     saveUninitialized: true,
 })
 
-/*
 const chatServer = new ChatServer({
     port: 12345,
     session: session,
 });
 chatServer.start();
-*/
 
 const webServer = new WebServer({
     root: __dirname + "/public",
