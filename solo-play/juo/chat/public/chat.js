@@ -1,8 +1,21 @@
+class Profile {
+    constructor(id, name, picture) {
+        this.id = id;
+        this.name = name;
+        this.picture = picture;
+    }
+}
+
 class Chat {
     constructor(client, elements) {
         this.client = client;
         this.elements = elements;
+        this.registerHandlers();
 
+        this.id = "myself_temp";    // TODO:
+    }
+
+    registerHandlers() {
         this.elements.input.onSendChat = this.onSendChat.bind(this);
         this.elements.input.onSendBinary = this.onSendBinary.bind(this);
 
@@ -13,17 +26,19 @@ class Chat {
         this.elements.nicknameSetDialog.show("");
     }
 
-    onSendChat(text) {
-        console.log("Send " + text);
+    onSubmitChat(text) {
+        // TODO: send text to server
+        this.elements.log.addText(new Profile(this.id, this.id, null), text, new Date(), false);
     }
 
-    onSendBinary(name, data) {
+    onSubmitBinary(name, data) {
     }
 
     onNicknameChange(name) {
         console.log("Nickname changed to " + name);
 
-        this.myProfile = new Profile(name);
-        this.elements.participantList.add(name, this.myProfile);
+        // TODO: register me to server
+        const id = this.id;
+        this.elements.participantList.add(id, name, null, id === this.id);
     }
 }

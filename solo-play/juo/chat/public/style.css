@@ -140,6 +140,12 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 0.2rem;
 }
 
+.chatTextLine {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
 .chatText {
     width: fit-content;
     background-color: white;
@@ -153,10 +159,22 @@ h1, h2, h3, h4, h5, h6 {
 .chatTime {
     width: fit-content;
     font-size: 0.7rem;
-    top: 0.5rem;
     color: rgb(74, 82, 89);
     display: inline-block;
+    margin: 0 0.4rem 0 0.4rem;
     position: relative;
+}
+
+.chatLogItemSelf .chatTextLine {
+    flex-direction: row-reverse;
+}
+
+.chatLogItemSelf .chatProfilePicture {
+    display: none;
+}
+
+.chatLogItemSelf .chatName {
+    display: none;
 }
 
 .chatLogItemSelf .chatText {

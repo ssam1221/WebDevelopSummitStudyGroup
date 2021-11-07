@@ -18,13 +18,13 @@ class ChatInput {
         if (text.length === 0) return;
         this.inputTextElement.value = "";
 
-        if (this.onSendChat) this.onSendChat(text);
+        if (this.onSubmitChat) this.onSubmitChat(text);
     }
 
     sendBinary() {
         // TODO: reset input
 
-        if (this.onSendBinary) this.onSendBinary("filename", "binary");
+        if (this.onSubmitBinary) this.onSubmitBinary("filename", "binary");
     }
 
     isModifierSet(e) {
@@ -48,54 +48,62 @@ class ChatInput {
 }
 
 class ChatLog {
-    constructor(context, chatLogElement) {
-        this.context = context;
+    constructor(chatLogElement) {
         this.element = chatLogElement;
-        this.latestItem = null;
     }
 
-    addText(profile, text) {
-        if (this.latestItem === null || this.latestItem.profile !== profile) {
-            this.latestItem = new ChatLogItem(this.context, profile);
+    addText(profile, text, date, isSelf) {
+        if (this.isIdChanged(profile.id)) {
+            this.latestItem = new ChatLogItem(profile, isSelf);
             this.element.appendChild(this.latestItem.element);
         }
 
-        this.latestItem.addText(text);
+        this.latestItem.addText(text, date);
         this.element.scrollTop = this.element.scrollHeight;
+    }
+
+    isIdChanged(id) {
+        return (!this.latestItem || this.latestItem.id !== id);
     }
 }
 
 class ChatLogItem {
-    constructor(context, profile) {
-        this.context = context;
-        this.profile = profile;
+    constructor(profile, isSelf) {
+        this.id = profile.id;
+        this.element = this.createItemElement(isSelf);
 
-        const isMyChat = this.profile === this.context.myProfile;
+        this.profilePictureElement = this.createProfilePictureElement(profile.picture);
+        this.element.appendChild(this.profilePictureElement);
 
-        this.element = this.createItemElement(isMyChat);
-
-        if (!isMyChat) {
-            this.profilePictureElement = this.createProfilePictureElement(profile.picture);
-            this.element.appendChild(this.profilePictureElement);
-        }
-
-        this.textGroupElement = this.createTextGroupElement(isMyChat ? null : profile.name);
+        this.textGroupElement = this.createTextGroupElement(profile.name);
         this.element.appendChild(this.textGroupElement);
     }
 
-    addText(text) {
+    addText(text, date) {
+        const textLineElement = document.createElement("div");
+        textLineElement.className = "chatTextLine";
+        this.textGroupElement.appendChild(textLineElement);
+
         const textElement = document.createElement("span");
         textElement.className = "chatText";
         textElement.innerText = text;
-        this.textGroupElement.appendChild(textElement);
+        textLineElement.appendChild(textElement);
+
+        const oldTimeElement = this.textGroupElement.getElementsByClassName("chatTime")[0];
+        if (oldTimeElement) oldTimeElement.remove();
+
+        const timeElement = document.createElement("span");
+        timeElement.className = "chatTime";
+        timeElement.innerText = this.formatTimeString(date);
+        textLineElement.appendChild(timeElement);
 
         const brElement = document.createElement("br");
-        this.textGroupElement.appendChild(brElement);
+        textLineElement.appendChild(brElement);
     }
 
-    createItemElement(isMyChat) {
+    createItemElement(isSelf) {
         const element = document.createElement("div");
-        element.className = (isMyChat ? "chatLogItemSelf" : "chatLogItem");
+        element.className = (isSelf ? "chatLogItemSelf" : "chatLogItem");
         return element;
     }
 
@@ -110,17 +118,24 @@ class ChatLogItem {
         const element = document.createElement("div");
         element.className = "chatTextGroup";
 
-        if (name !== null) {
-            const nameElement = document.createElement("span");
-            nameElement.className = "chatName";
-            nameElement.innerText = name;
-            element.appendChild(nameElement);
-
-            const brElement = document.createElement("br");
-            element.appendChild(brElement);
-        }
+        const nameElement = document.createElement("div");
+        nameElement.className = "chatName";
+        nameElement.innerText = name;
+        element.appendChild(nameElement);
 
         return element;
+    }
+
+    formatTimeString(date) {
+        const meridiem = (date.getHours() < 12) ? "오전" : "오후";
+
+        let hours = date.getHours() % 12;
+        if (hours === 0) hours = 12;
+
+        let minutes = date.getMinutes();
+        if (minutes < 10) minutes = "0" + minutes;
+
+        return `${meridiem} ${hours}:${minutes}`;
     }
 }
 
@@ -130,10 +145,10 @@ class ParticipantList {
         this.participantItems = new Map();
     }
 
-    add(id, profile) {
+    add(profile, isSelf) {
         this.participantItems.set(
-            id,
-            new ParticipantItem(profile));
+            profile.id,
+            new ParticipantItem(profile, isSelf));
         this.refresh();
     }
 
@@ -141,6 +156,10 @@ class ParticipantList {
         const removed = this.participantItems.delete(id);
         if (!removed) return;
         this.refresh();
+    }
+
+    empty() {
+        this.participantItems.clear();
     }
 
     refresh() {
@@ -153,32 +172,27 @@ class ParticipantList {
 }
 
 class ParticipantItem {
-    constructor(profile) {
-        this.profile = profile;
-        this.element = this.createItemElement(profile);
+    constructor(profile, isSelf) {
+        this.name = profile.name;
+        this.picture = profile.picture;
+        this.element = this.createItemElement(profile.name, profile.picture, isSelf);
     }
 
-    createItemElement(profile) {
+    createItemElement(name, picture, isSelf) {
         const element = document.createElement("div");
         element.className = "participantItem";
 
         const profilePictureElement = document.createElement("img");
         profilePictureElement.className = "participantProfilePicture";
-        profilePictureElement.src = profile.picture;
+        profilePictureElement.src = picture;
         element.appendChild(profilePictureElement);
 
-        const isSelfProfile = false;
-
         const nameElement = document.createElement("span");
-        nameElement.className = isSelfProfile ? "participantNameSelf" : "participantName";
-        nameElement.innerText = profile.name;
+        nameElement.className = isSelf ? "participantNameSelf" : "participantName";
+        nameElement.innerText = name;
         element.appendChild(nameElement);
 
         return element;
-    }
-
-    remove() {
-        this.element.remove();
     }
 }
 
@@ -213,45 +227,5 @@ class NicknameSetDialog {
 
         if (this.onSet) this.onSet(newName);
         this.hide();
-    }
-}
-
-class Profile {
-    constructor(name, picture) {
-        this.name = name;
-        this.picture = picture ? picture : this.generateDefaultPicture();
-    }
-
-    generateDefaultPicture() {
-        function getRandomNumber(min, max) {
-            return Math.random() * (max - min) + min;
-        }
-
-        function getRandomBackgroundColor() {
-            const r = Math.random() * 180;
-            const g = Math.random() * 180;
-            const b = Math.random() * 180;
-            return `rgb(${r}, ${g}, ${b})`;
-        }
-
-        const canvas = document.createElement("canvas");
-        canvas.width = canvas.height = 500;
-
-        const context = canvas.getContext("2d");
-
-        context.fillStyle = getRandomBackgroundColor();
-        context.fillRect(0, 0, canvas.width, canvas.height);
-
-        context.translate(
-            canvas.width / 2,
-            canvas.height / 2);
-        context.rotate(getRandomNumber(-0.2, 0.2));
-        context.font = "320px Arial";
-        context.textAlign = "center";
-        context.textBaseline = "middle";
-        context.fillStyle = "white";
-        context.fillText(this.name.substr(0, 2), 0, 0);
-
-        return canvas.toDataURL();
     }
 }
