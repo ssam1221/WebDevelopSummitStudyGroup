@@ -24,7 +24,7 @@ class ChatInput {
     sendBinary() {
         // TODO: reset input
 
-        if (this.onSubmitBinary) this.onSubmitBinary("filename", "binary");
+        if (this.onSubmitBinary) this.onSubmitBinary("fileName", "binary");
     }
 
     isModifierSet(e) {
@@ -143,6 +143,16 @@ class ParticipantList {
     constructor(element) {
         this.element = element;
         this.participantItems = new Map();
+    }
+
+    get(name) {
+        const item = this.participantItems.get(name);
+        if (!item) return null;
+
+        return {
+            name: item.name,
+            picture: item.picture,
+        };
     }
 
     add(profile, isSelf) {
