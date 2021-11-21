@@ -33,10 +33,17 @@
             </div>
         </div>
 
+        <div id="errorDialog" class="dialogBackground">
+            <div class="dialogContainer">
+                <p class="dialogPrompt">서버에 연결할 수 없습니다</p>
+            </div>
+        </div>
+
         <div id="nicknameDialog" class="dialogBackground">
             <div class="dialogContainer">
                 <p class="dialogPrompt">내 이름을 입력하세요</p>
                 <input id="nicknameText" class="dialogInput" type="text" maxlength="10" />
+                <p id="nicknameError" class="dialogPromptError">&nbsp;</p>
                 <button id="nicknameConfirmButton" class="confirmButton" type="button">확인</button>
             </div>
         </div>

@@ -42,6 +42,12 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0;
 }
 
+.dialogPromptError {
+    font-size: small;
+    color: red;
+    margin: 0;
+}
+
 .dialogInput {
     font-size: medium;
     padding: 0.5rem 0 0.5rem 0;
@@ -49,7 +55,7 @@ h1, h2, h3, h4, h5, h6 {
     border-width: 0 0 1px 0;
     border-color: black;
     outline: none;
-    margin: 0.5rem 0 3rem 0
+    margin: 0.5rem 0 0.5rem 0
 }
 
 .confirmButton {
@@ -60,6 +66,7 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0.5rem;
     border: 1px solid rgb(234, 216, 49);
     border-radius: 0.3rem;
+    margin-top: 2rem;
 }
 
 .confirmButton:active {
@@ -245,6 +252,10 @@ h1, h2, h3, h4, h5, h6 {
 .participantNameSelf {
     font-size: 0.9rem;
     font-weight: 600;
+}
+
+#errorDialog {
+    visibility: hidden;
 }
 
 #nicknameDialog {

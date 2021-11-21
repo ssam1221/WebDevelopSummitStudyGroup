@@ -53,7 +53,7 @@ class ChatLog {
     }
 
     addText(profile, text, date, isSelf) {
-        if (this.isIdChanged(profile.id)) {
+        if (this.isNameChanged(profile.name)) {
             this.latestItem = new ChatLogItem(profile, isSelf);
             this.element.appendChild(this.latestItem.element);
         }
@@ -62,14 +62,14 @@ class ChatLog {
         this.element.scrollTop = this.element.scrollHeight;
     }
 
-    isIdChanged(id) {
-        return (!this.latestItem || this.latestItem.id !== id);
+    isNameChanged(name) {
+        return (!this.latestItem || this.latestItem.name !== name);
     }
 }
 
 class ChatLogItem {
     constructor(profile, isSelf) {
-        this.id = profile.id;
+        this.name = profile.name;
         this.element = this.createItemElement(isSelf);
 
         this.profilePictureElement = this.createProfilePictureElement(profile.picture);
@@ -147,13 +147,13 @@ class ParticipantList {
 
     add(profile, isSelf) {
         this.participantItems.set(
-            profile.id,
+            profile.name,
             new ParticipantItem(profile, isSelf));
         this.refresh();
     }
 
-    remove(id) {
-        const removed = this.participantItems.delete(id);
+    remove(name) {
+        const removed = this.participantItems.delete(name);
         if (!removed) return;
         this.refresh();
     }
@@ -196,10 +196,25 @@ class ParticipantItem {
     }
 }
 
+class ErrorDialog {
+    constructor(dialogElement) {
+        this.element = dialogElement;
+    }
+
+    show() {
+        this.element.style.visibility = "visible";
+    }
+
+    hide() {
+        this.element.style.visibility = "hidden";
+    }
+}
+
 class NicknameSetDialog {
-    constructor(dialogElement, inputElement, confirmButtonElement) {
+    constructor(dialogElement, inputElement, errorElement, confirmButtonElement) {
         this.element = dialogElement;
         this.inputElement = inputElement;
+        this.errorElement = errorElement;
         this.confirmButtonElement = confirmButtonElement;
 
         this.confirmButtonElement.addEventListener(
@@ -217,6 +232,11 @@ class NicknameSetDialog {
         this.element.style.visibility = "hidden";
     }
 
+    error(text) {
+        if (!text || text.length === 0) text = "&nbsp;";
+        this.errorElement.innerHTML = text;
+    }
+
     onConfirmButtonClick(e) {
         this.inputElement.value = this.inputElement.value.trim();
         const newName = this.inputElement.value;
@@ -226,6 +246,5 @@ class NicknameSetDialog {
         }
 
         if (this.onSet) this.onSet(newName);
-        this.hide();
     }
 }
