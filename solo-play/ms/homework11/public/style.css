@@ -1,0 +1,77 @@
+@font-face {
+    font-family: 'NanumBarunpenR';
+    src: url('./fonts/NanumBarunpenR.ttf') format('truetype');
+}
+
+body {
+    background-color: white;
+    font-weight: bold;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 12px;
+
+}
+
+.form_title,.form_field {
+    font-family: 'NanumBarunpenR';
+    font-weight: bold;
+}
+
+#member_join,#member_manage {
+    margin-left:30%;
+    margin-bottom:100px;
+}
+
+button {
+	position: relative;
+	display: inline-block;
+    font-family: 'NanumBarunpenR';
+    font-weight: bold;
+	font-size: 15px;
+	padding: 5px 15px;
+	margin: 20px 10px 10px 10px;
+    border: 1px solid grey;
+	border-radius: 6px;
+	text-align: center;
+	transition: top .01s linear;
+    box-shadow: 1px 2px 0 rgb(0,0,0,0.5);
+}
+
+button:active {
+    box-shadow: 1px 1px 0 rgb(0,0,0,0.5);
+    position: relative;
+    top:2px;
+}
+
+.btn {
+    background-color:paleturquoise;
+	color: black;
+}
+
+.btn_reset {
+    background-color: lightgrey;
+	color: black;
+}
+
+.form_title {
+    color: black;
+    text-align: left;
+    margin-top: 1px;
+}
+
+.form_field {
+    color: black;
+    font-size: 15px;
+    padding-left: 5px;
+}
+
+input {
+    background: #fff;
+    display: block;
+    position: relative;
+    width: 400px;
+    height: 30px;
+    border: 1.5px solid lightgrey;
+    padding: 10px 10px 10px 14px;
+    background: #fff;
+    box-sizing: border-box;
+}

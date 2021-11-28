@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <title>회원 가입</title>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="member.js"></script>
+    </head>
+    <body>
+        <div id="member_join">
+            <h1 class="form_title">회원 가입</h1>
+            <div class="join_row">
+                <h3 class>
+                    <label class="form_field">ID</label>
+                </h3>
+                <span class="input">
+                    <input type=text id="new_id">
+                </span>
+            </div>
+            <div class="join_row">
+                <h2 class>
+                    <label class="form_field">비밀번호</label>
+                </h2>
+                <span class="input">
+                    <input type=password id="new_password">
+                </span>
+            </div>
+            <div class="join_row">
+                <h2 class>
+                    <label class="form_field">닉네임</label>
+                </h2>
+                <span class="input">
+                    <input type=text id="new_nickname">
+                </span>
+            </div>
+            <button id="btn_add_member" class="btn" type="submit">계정 생성</button>
+            <button id="btn_reset_input" class="btn_reset">입력 초기화</button>
+        </div>
+        <div id="member_manage">
+            <h1 class="form_title">회원 관리 프로그램</h1>
+            <div class="join_row">
+                <h2 class>
+                    <label class="form_field">ID</label>
+                </h2>
+                <span class="input">
+                    <input type=text id="find_id">
+                </span>
+            </div>
+            <div class="join_row">
+                <h2 class>
+                    <label class="form_field">비밀번호</label>
+                </h2>
+                <span class="input">
+                    <input type=password id="find_password">
+                </span>
+            </div>
+            <div class="join_row">
+                <h2 class>
+                    <label class="form_field">닉네임</label>
+                </h2>
+                <span class="input">
+                    <input type=text id="find_nickname">
+                </span>
+            </div>
+            <button id="btn_search_member" class="btn">계정 검색</button>
+            <button id="btn_change_member_info" class="btn">정보 수정</button>
+            <button id="btn_remove_member" class="btn">계정 삭제</button>
+        </div>
+    </body>
+</html>
