@@ -12,7 +12,7 @@ class Client {
         }
 
         this.socket.onmessage = (event) => {
-            this.handleMessage(data);
+            this.handleMessage(event.data);
         }
 
         this.socket.onerror = (event) => {
@@ -51,29 +51,38 @@ class Client {
     }
 
     handleMessage(data) {
-        console.log(data);
+        const message = function () {
+            try { return JSON.parse(data); }
+            catch (e) { return undefined; }
+        }();
+        if (!message) {
+            console.error(`Invalid message: ${data}`);
+            return;
+        }
+        console.log(message);
 
-        switch (data.method) {
+        switch (message.method) {
             case "REGISTER_OK":
-                this.listener.onRegistered(data.name);
+                this.listener.onRegistered(message.name);
                 break;
             case "REGISTER_FAIL":
-                this.listener.onRegisterFailed(data.error);
+                this.listener.onRegisterFailed(message.error);
                 break;
             case "PARTICIPANT_UPDATE":
-                this.listener.onParticipantsUpdate(data.participants);
+                this.listener.onParticipantsUpdate(message.participants);
                 break;
             case "PARTICIPANT_JOIN":
-                this.listener.onParticipantJoin(data.participant);
+                this.listener.onParticipantJoin(message.participant);
                 break;
             case "PARTICIPANT_LEAVE":
-                this.listener.onParticipantLeave(data.participant);
+                this.listener.onParticipantLeave(message.participant);
                 break;
             case "CHAT_INCOMING":
-                this.listener.onChatIncoming(data.name, data.text, data.time);
+                this.listener.onChatIncoming(message.name, message.text, message.time);
                 break;
             case "BINARY_INCOMING":
-                this.listener.onBinaryIncoming(data.name, data.fileName, data.binary, data.time);
+                this.listener.onBinaryIncoming(
+                        message.name, message.fileName, message.binary, message.time);
                 break;
         }
     }
