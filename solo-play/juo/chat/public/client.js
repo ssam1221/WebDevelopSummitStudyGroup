@@ -38,11 +38,11 @@ class Client {
         });
     }
 
-    sendBinary(fileName, data) {
+    sendBinary(fileName, binary) {
         this.send({
             method: "BINARY",
             fileName: fileName,
-            data: data,
+            binary: binary,
         });
     }
 
@@ -58,7 +58,7 @@ class Client {
                 this.listener.onRegistered(data.name);
                 break;
             case "REGISTER_FAIL":
-                this.listener.onRegisterFailed(data.errorCode);
+                this.listener.onRegisterFailed(data.error);
                 break;
             case "PARTICIPANT_UPDATE":
                 this.listener.onParticipantsUpdate(data.participants);
@@ -67,13 +67,13 @@ class Client {
                 this.listener.onParticipantJoin(data.participant);
                 break;
             case "PARTICIPANT_LEAVE":
-                this.listener.onParticipantLeave(data.participant.name);
+                this.listener.onParticipantLeave(data.participant);
                 break;
             case "CHAT_INCOMING":
                 this.listener.onChatIncoming(data.name, data.text, data.time);
                 break;
             case "BINARY_INCOMING":
-                this.listener.onBinaryIncoming(data.name, data.fileName, data.data, data.time);
+                this.listener.onBinaryIncoming(data.name, data.fileName, data.binary, data.time);
                 break;
         }
     }

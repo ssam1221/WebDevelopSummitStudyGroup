@@ -61,8 +61,8 @@ class Chat {
         this.client.sendChat(text);
     }
 
-    onSendBinary(fileName, data) {
-        this.client.sendBinary(fileName, data);
+    onSendBinary(fileName, binary) {
+        this.client.sendBinary(fileName, binary);
     }
 
     onNicknameChange(name) {
@@ -84,14 +84,7 @@ class Chat {
     }
 
     onRegisterFailed(error) {
-        function errorToText(error) {
-            switch (error) {
-                case 1: return "잘못된 닉네임입니다";
-                case 2: return "중복된 닉네임입니다";
-                default: return "에러가 발생했습니다";
-            }
-        };
-        this.elements.nicknameSetDialog.error(errorToText(error));
+        this.elements.nicknameSetDialog.error(error);
     }
 
     onParticipantsUpdate(participants) {
@@ -105,13 +98,15 @@ class Chat {
         });
     }
 
-    onParticipantJoin(profile) {
-        if (!profile.picture) profile.picture = Profile.generateDefaultPicture(profile.name);
-        this.elements.participantList.add(profile, false);
+    onParticipantJoin(participant) {
+        if (!participant.picture) {
+            participant.picture = Profile.generateDefaultPicture(participant.name);
+        }
+        this.elements.participantList.add(participant, false);
     }
 
-    onParticipantLeave(name) {
-        this.elements.participantList.remove(name);
+    onParticipantLeave(participant) {
+        this.elements.participantList.remove(participant.name);
     }
 
     onChatIncoming(name, text, time) {
@@ -122,7 +117,7 @@ class Chat {
             name === this.myName);
     }
 
-    onBinaryIncoming(name, fileName, data, time) {
+    onBinaryIncoming(name, fileName, binary, time) {
         // TODO:
     }
 }
