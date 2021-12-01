@@ -22,6 +22,11 @@ class ChatServer {
 
     onNewConnection(ws, req) {
         this.session(req, {}, () => {
+            if (this.isSessionExists(req.session.id)) {
+                ws.terminate();
+                return;
+            }
+
             const client = new Client(req.session.id, ws);
             client.send({
                 method: "PARTICIPANT_UPDATE",
@@ -73,6 +78,10 @@ class ChatServer {
         this.clients.forEach(c => {
             c.send(message);
         });
+    }
+
+    isSessionExists(id) {
+        return [...this.clients.values()].find(c => c.sessionId === id);
     }
 
     isNameExists(name) {
