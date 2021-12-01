@@ -15,7 +15,65 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0;
 }
 
-#container {
+.dialogBackground {
+    background-color: rgba(0, 0, 0, 0.3);
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dialogContainer {
+    width: fit-content;
+    background-color: white;
+    border-width: 0;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    display: inline-block;
+}
+
+.dialogPrompt {
+    font-weight: 600;
+    margin: 0;
+}
+
+.dialogPromptError {
+    font-size: small;
+    color: red;
+    margin: 0;
+}
+
+.dialogInput {
+    font-size: medium;
+    padding: 0.5rem 0 0.5rem 0;
+    width: 100%;
+    border-width: 0 0 1px 0;
+    border-color: black;
+    outline: none;
+    margin: 0.5rem 0 0.5rem 0
+}
+
+.confirmButton {
+    color: black;
+    font-size: 1rem;
+    background-color: rgb(249, 230, 52);
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid rgb(234, 216, 49);
+    border-radius: 0.3rem;
+    margin-top: 2rem;
+}
+
+.confirmButton:active {
+    background-color: rgb(221, 205, 46);
+}
+
+#chatContainer {
     background-color: rgb(226, 226, 226);
     width: 100%;
     height: 100%;
@@ -89,6 +147,12 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 0.2rem;
 }
 
+.chatTextLine {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
 .chatText {
     width: fit-content;
     background-color: white;
@@ -97,6 +161,27 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0.5rem;
     margin-top: 0.4rem;
     display: inline-block;
+}
+
+.chatTime {
+    width: fit-content;
+    font-size: 0.7rem;
+    color: rgb(74, 82, 89);
+    display: inline-block;
+    margin: 0 0.4rem 0 0.4rem;
+    position: relative;
+}
+
+.chatLogItemSelf .chatTextLine {
+    flex-direction: row-reverse;
+}
+
+.chatLogItemSelf .chatProfilePicture {
+    display: none;
+}
+
+.chatLogItemSelf .chatName {
+    display: none;
 }
 
 .chatLogItemSelf .chatText {
@@ -112,6 +197,11 @@ h1, h2, h3, h4, h5, h6 {
     grid-row: 3 / span 1;
 }
 
+#chatInput .confirmButton {
+    width: 6rem;
+    margin: 0.7rem 0.7rem 0.7rem 0;
+}
+
 #chatInputText {
     font-size: 1rem;
     word-break: break-all;
@@ -121,20 +211,6 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0;
     margin: 0.7rem 1rem;
     flex-grow: 1;
-}
-
-#chatSendButton {
-    color: black;
-    font-size: 1rem;
-    background-color: rgb(249, 230, 52);
-    width: 6rem;
-    margin: 0.7rem 0.7rem 0.7rem 0;
-    border: 1px solid rgb(234, 216, 49);
-    border-radius: 0.3rem;
-}
-
-#chatSendButton:active {
-    background-color: rgb(221, 205, 46);
 }
 
 #sidebar {
@@ -176,4 +252,12 @@ h1, h2, h3, h4, h5, h6 {
 .participantNameSelf {
     font-size: 0.9rem;
     font-weight: 600;
+}
+
+#errorDialog {
+    visibility: hidden;
+}
+
+#nicknameDialog {
+    visibility: hidden;
 }
