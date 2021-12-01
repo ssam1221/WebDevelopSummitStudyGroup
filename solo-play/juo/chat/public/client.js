@@ -72,10 +72,10 @@ class Client {
                 this.listener.onParticipantsUpdate(message.participants);
                 break;
             case "PARTICIPANT_JOIN":
-                this.listener.onParticipantJoin(message.participant);
+                this.listener.onParticipantJoin(message.name, message.picture);
                 break;
             case "PARTICIPANT_LEAVE":
-                this.listener.onParticipantLeave(message.participant);
+                this.listener.onParticipantLeave(message.name);
                 break;
             case "CHAT_INCOMING":
                 this.listener.onChatIncoming(message.name, message.text, message.time);

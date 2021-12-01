@@ -47,8 +47,8 @@ class Chat {
     }
 
     registerUiHandlers(elements) {
-        elements.input.onSendChat = this.onSendChat.bind(this);
-        elements.input.onSendBinary = this.onSendBinary.bind(this);
+        elements.input.onSubmitChat = this.onSubmitChat.bind(this);
+        elements.input.onSubmitBinary = this.onSubmitBinary.bind(this);
 
         elements.nicknameSetDialog.onSet = this.onNicknameChange.bind(this);
     }
@@ -57,11 +57,11 @@ class Chat {
         this.client.open(this);
     }
 
-    onSendChat(text) {
+    onSubmitChat(text) {
         this.client.sendChat(text);
     }
 
-    onSendBinary(fileName, binary) {
+    onSubmitBinary(fileName, binary) {
         this.client.sendBinary(fileName, binary);
     }
 
@@ -88,7 +88,7 @@ class Chat {
     }
 
     onParticipantsUpdate(participants) {
-        this.elements.participantsList.empty();
+        this.elements.participantList.empty();
 
         participants.forEach(e => {
             if (!e.name) return;
@@ -98,15 +98,16 @@ class Chat {
         });
     }
 
-    onParticipantJoin(participant) {
-        if (!participant.picture) {
-            participant.picture = Profile.generateDefaultPicture(participant.name);
-        }
-        this.elements.participantList.add(participant, false);
+    onParticipantJoin(name, picture) {
+        const profile = new Profile(
+            name,
+            picture ? picture : Profile.generateDefaultPicture(name)
+        );
+        this.elements.participantList.add(profile, name === this.myName);
     }
 
-    onParticipantLeave(participant) {
-        this.elements.participantList.remove(participant.name);
+    onParticipantLeave(name) {
+        this.elements.participantList.remove(name);
     }
 
     onChatIncoming(name, text, time) {

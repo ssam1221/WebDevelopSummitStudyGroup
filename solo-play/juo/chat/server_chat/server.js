@@ -57,7 +57,7 @@ class ChatServer {
     }
 
     onCloseConnection(sessionId) {
-        const name = this.clients.get(sessionId)?.name;
+        const name = this.clients.get(sessionId)?.profile.name;
 
         this.clients.delete(sessionId);
         console.log(`Connection closed: ${this.clients.size}`);
@@ -65,9 +65,7 @@ class ChatServer {
         if (!name) return;
         this.broadcast({
             method: "PARTICIPANT_LEAVE",
-            participant: {
-                name: name,
-            },
+            name: name,
         });
     }
 
@@ -78,7 +76,7 @@ class ChatServer {
     }
 
     isNameExists(name) {
-        return [...this.clients.values()].find(c => c.name === name);
+        return [...this.clients.values()].find(c => c.profile.name === name);
     }
 }
 

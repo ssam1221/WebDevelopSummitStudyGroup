@@ -176,7 +176,7 @@ class ParticipantList {
         this.element.textContent = "";
 
         [...this.participantItems.values()]
-            .sort((item1, item2) => item1.profile.name > item2.profile.name)
+            .sort((item1, item2) => item1.name > item2.name)
             .forEach(item => this.element.appendChild(item.element));
     }
 }
@@ -252,6 +252,7 @@ class NicknameSetDialog {
         const newName = this.inputElement.value;
         if (newName.length <= 0) {
             this.inputElement.focus();
+            this.error("닉네임이 올바르지 않습니다.");
             return;
         }
 
